@@ -1,0 +1,40 @@
+@Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                Bundle savedInstanceState) {
+			
+			Log.d(FULL_LOG_TAG, "Grid View Fragment: onCreateView; ");
+			View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            
+            this.setHasOptionsMenu(true);
+            setRetainInstance(true);
+            //ImageButton imgBtnObrirSequenciaFotos = (ImageButton) rootView.findViewById(R.id.imageButtonPlay);
+            
+            gridview = (GridView) rootView.findViewById(R.id.gridViewFotos);
+            if (mFotoGridAdapter==null){
+            	cargarGrid();
+            }
+            gridview.setAdapter(mFotoGridAdapter);
+            gridview.setOnItemClickListener(new OnItemClickListener() {
+    			public void onItemClick(AdapterView<?> parent, View v,
+    					int position, long id) {
+    					Foto auxFoto =(Foto) v.getTag();
+    					obrirFoto(auxFoto);
+    					Log.d(FULL_LOG_TAG, "GridViewFragment: onItemClick. fecha de foto: "+auxFoto.getData());
+    					
+    					//Toast.makeText(getActivity(), "fecha de foto: "+auxFoto.getData(), Toast.LENGTH_SHORT).show();
+    			}
+    		});
+            
+            gridview.setLongClickable(true);
+            
+            gridview.setOnItemLongClickListener( new AdapterView.OnItemLongClickListener() {
+			    public boolean onItemLongClick(AdapterView<?> parent, View v, int position,long id)
+			    {
+    					Foto auxFoto =(Foto) v.getTag();
+    					GridViewFragment.this.eliminarDeLaLLista(auxFoto);
+    					Log.d(FULL_LOG_TAG, "GridViewFragment: onItemClick. fecha de foto: "+auxFoto.getData());
+    					
+    					
+    					return true;
+            	}
+    		});
